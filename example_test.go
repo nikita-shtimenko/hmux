@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/httptest"
+	"time"
 
 	"github.com/nikita-shtimenko/hmux"
 )
@@ -31,8 +32,15 @@ func Example() {
 		fmt.Fprint(w, "OK")
 	})
 
-	// Use as http.Handler
-	_ = http.ListenAndServe(":8080", mux)
+	// Use as http.Handler with proper timeouts
+	srv := &http.Server{
+		Addr:         ":8080",
+		Handler:      mux,
+		ReadTimeout:  15 * time.Second,
+		WriteTimeout: 15 * time.Second,
+		IdleTimeout:  60 * time.Second,
+	}
+	_ = srv.ListenAndServe()
 }
 
 func Example_middleware() {
