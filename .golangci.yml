@@ -1,0 +1,85 @@
+version: "2"
+
+run:
+  timeout: 2m
+
+linters:
+  enable:
+    - govet
+    - staticcheck
+    - gosec
+    - bodyclose
+    - nilerr
+    - errcheck
+    - errorlint
+
+    - revive
+    - unconvert
+
+    - misspell
+
+    - godot
+    - godox
+    - nolintlint
+
+  settings:
+    errcheck:
+      check-type-assertions: false
+      check-blank: false
+      exclude-functions:
+        - (net/http.ResponseWriter).Write
+        - (net/http.ResponseWriter).WriteHeader
+        - fmt.Fprint
+        - fmt.Fprintf
+        - fmt.Fprintln
+
+    revive:
+      rules:
+        - name: exported
+          arguments:
+            - checkPrivateReceivers
+            - sayRepetitiveInsteadOfStutters
+        - name: blank-imports
+        - name: context-as-argument
+        - name: context-keys-type
+        - name: error-return
+        - name: error-strings
+        - name: error-naming
+        - name: var-declaration
+        - name: package-comments
+        - name: range
+        - name: receiver-naming
+        - name: unexported-return
+        - name: indent-error-flow
+        - name: errorf
+
+    godot:
+      scope: toplevel # Only check exported declarations
+      capital: true
+
+    errorlint:
+      errorf: true
+      asserts: true
+      comparison: true
+
+    gosec:
+      excludes:
+        - G104 # Unhandled errors - errcheck handles this better
+
+    nolintlint:
+      require-explanation: true
+      require-specific: true
+
+    staticcheck:
+      checks:
+        - all
+        - -QF1011 # Allow explicit type in var declarations (used for interface checks)
+
+formatters:
+  enable:
+    - gci
+    - gofmt
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
