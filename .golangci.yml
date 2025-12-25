@@ -12,12 +12,9 @@ linters:
     - nilerr
     - errcheck
     - errorlint
-
     - revive
     - unconvert
-
     - misspell
-
     - godot
     - godox
     - nolintlint
@@ -54,7 +51,7 @@ linters:
         - name: errorf
 
     godot:
-      scope: toplevel # Only check exported declarations
+      scope: toplevel
       capital: true
 
     errorlint:
@@ -64,7 +61,7 @@ linters:
 
     gosec:
       excludes:
-        - G104 # Unhandled errors - errcheck handles this better
+        - G104
 
     nolintlint:
       require-explanation: true
@@ -73,7 +70,7 @@ linters:
     staticcheck:
       checks:
         - all
-        - -QF1011 # Allow explicit type in var declarations (used for interface checks)
+        - -QF1011
 
 formatters:
   enable:
